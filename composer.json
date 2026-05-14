@@ -64,7 +64,8 @@
     },
     "repositories": [
         { "type": "vcs", "url": "https://github.com/meniloss/admin-shell" },
-        { "type": "vcs", "url": "https://github.com/meniloss/lead-forwarding" }
+        { "type": "vcs", "url": "https://github.com/meniloss/lead-forwarding" },
+        { "type": "vcs", "url": "https://github.com/meniloss/lead-management" }
     ],
     "extra": {
         "symfony": {
