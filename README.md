@@ -27,7 +27,63 @@ Le token doit avoir le scope `repo` pour accéder aux dépôts privés de l'orga
 composer create-project meniloss/symfony-skeleton-shbyjm mon-nouveau-site
 ```
 
-Cela crée un projet Symfony 7.4 vierge avec l'endpoint Flex SHbyJM déjà configuré dans `composer.json`.
+Cela crée un projet Symfony 7.4 vierge avec :
+- L'endpoint Flex SHbyJM déjà configuré
+- Les repositories VCS GitHub déclarés pour les packages SHbyJM privés
+
+## Structure dual avec bootstrap.ps1
+
+Après la création du projet, le script `bootstrap.ps1` réorganise la structure en séparant le code Symfony du webroot. C'est la structure attendue pour un déploiement sur PlanetHoster (ou tout hébergement où le webroot est un dossier distinct).
+
+### Utilisation typique
+
+```powershell
+composer create-project meniloss/symfony-skeleton-shbyjm mon-nouveau-site
+cd mon-nouveau-site
+.\bootstrap.ps1
+cd symfony
+composer require shbyjm/admin-shell
+```
+
+### Paramètres
+
+| Paramètre      | Défaut        | Description                          |
+|-----------------|---------------|--------------------------------------|
+| `-SymfonyDir`   | `symfony`     | Nom du dossier contenant le code     |
+| `-PublicDir`    | `public_html` | Nom du dossier webroot               |
+
+Les noms peuvent contenir des points et des tirets (utile pour les sous-domaines PlanetHoster) :
+
+```powershell
+.\bootstrap.ps1 -SymfonyDir "symfony" -PublicDir "blog.example.com.public_html"
+```
+
+### Structure résultante
+
+```
+mon-nouveau-site/
+├── symfony/              # Code Symfony (src/, config/, vendor/, bin/...)
+├── public_html/          # Webroot (index.php, assets...)
+├── claude.md             # Conventions projet
+└── .git/
+```
+
+Le script ajuste automatiquement :
+- `composer.json` → `extra.symfony.public-dir` pointe vers le webroot
+- `index.php` → le `require` de l'autoloader pointe vers `symfony/vendor/`
+
+## Repositories VCS
+
+Le `composer.json` déclare les repositories VCS GitHub des packages SHbyJM :
+
+```json
+"repositories": [
+    { "type": "vcs", "url": "https://github.com/meniloss/admin-shell" },
+    { "type": "vcs", "url": "https://github.com/meniloss/lead-forwarding" }
+]
+```
+
+Ces déclarations indiquent à Composer où trouver les packages privés. Aucun package n'est installé automatiquement — ils restent à ajouter à la demande via `composer require`.
 
 ## Ajout des modules SHbyJM
 

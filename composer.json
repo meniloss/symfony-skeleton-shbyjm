@@ -62,6 +62,10 @@
     "conflict": {
         "symfony/symfony": "*"
     },
+    "repositories": [
+        { "type": "vcs", "url": "https://github.com/meniloss/admin-shell" },
+        { "type": "vcs", "url": "https://github.com/meniloss/lead-forwarding" }
+    ],
     "extra": {
         "symfony": {
             "allow-contrib": true,
