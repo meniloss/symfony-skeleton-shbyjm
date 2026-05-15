@@ -12,9 +12,13 @@
         "symfony/flex": "^2"
     },
     "flex-require": {
+        "doctrine/doctrine-bundle": "*",
+        "doctrine/orm": "*",
         "symfony/console": "*",
         "symfony/dotenv": "*",
         "symfony/framework-bundle": "*",
+        "symfony/mailer": "*",
+        "symfony/messenger": "*",
         "symfony/runtime": "*",
         "symfony/yaml": "*"
     },
