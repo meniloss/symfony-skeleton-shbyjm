@@ -15,6 +15,7 @@ framework:
             command.bus:
                 middleware:
                     - doctrine_transaction
+                    - App\Shared\Infrastructure\Messenger\DispatchDomainEventsAfterCommitMiddleware
             async.bus:
                 default_middleware: allow_no_handlers
         routing:

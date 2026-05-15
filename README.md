@@ -30,7 +30,9 @@ composer create-project meniloss/symfony-skeleton-shbyjm mon-nouveau-site
 Cela crée un projet Symfony 7.4 vierge avec :
 - L'endpoint Flex SHbyJM déjà configuré
 - Les repositories VCS GitHub déclarés pour les packages SHbyJM privés
-- La config Messenger SHbyJM (deux bus, middleware doctrine_transaction, transport async Doctrine)
+- La config Messenger SHbyJM (deux bus, middleware doctrine_transaction + DispatchDomainEventsAfterCommit, transport async Doctrine)
+- La locale `fr` et le timezone `Europe/Brussels` par défaut
+- Le Shared Kernel initial (Clock Port, EmailAddress, RecordsDomainEvents)
 
 ## Structure dual avec bootstrap.ps1
 
@@ -93,7 +95,7 @@ Ces déclarations indiquent à Composer où trouver les packages privés. Aucun 
 
 Le skeleton inclut `config/packages/messenger.yaml` avec la convention Messenger partagée par tous les sites SHbyJM :
 
-- **`command.bus`** (synchrone) — middleware `doctrine_transaction`, bus par défaut
+- **`command.bus`** (synchrone) — middlewares `doctrine_transaction` + `DispatchDomainEventsAfterCommitMiddleware`, bus par défaut
 - **`async.bus`** — taches lourdes (emails, notifications differees)
 - **Transport `async`** — Doctrine, retry x3
 - **Transport `failed`** — dead-letter queue Doctrine
@@ -101,6 +103,31 @@ Le skeleton inclut `config/packages/messenger.yaml` avec la convention Messenger
 Cette config est une convention structurante documentee dans le `claude.md`. Les packages SHbyJM (`admin-shell`, `lead-forwarding`) en dependent. Elle est livree dans le skeleton plutot que via une recipe Flex car Flex refuse d'ecraser un fichier existant en mode non-interactif — la recipe officielle `symfony/messenger` pose un `messenger.yaml` par defaut avant que la recipe SHbyJM ne puisse agir.
 
 La variable `MESSENGER_TRANSPORT_DSN` est definie dans le `.env` du skeleton.
+
+## Locale et timezone
+
+Le skeleton livre `config/packages/framework.yaml` et `config/packages/translation.yaml` avec :
+- `default_locale: 'fr'` (convention SHbyJM — tous les sites sont francophones)
+- `fallbacks: ['fr']` pour les traductions
+
+Ces fichiers preemptent les recipes Flex officielles (meme mecanisme que `messenger.yaml`).
+
+## Shared Kernel
+
+Le skeleton livre un `src/Shared/` initial avec les classes transversales utilisees par tous les sites SHbyJM :
+
+```
+src/Shared/
++-- Application/Port/Clock/Clock.php            # Interface Clock (regle absolue #5)
++-- Domain/Event/RecordsDomainEvents.php         # Trait pour les aggregats
++-- Domain/ValueObject/EmailAddress.php          # VO immuable avec validation
++-- Infrastructure/Clock/SystemClock.php         # Implementation prod (symfony/clock)
++-- Infrastructure/Clock/FrozenClock.php         # Implementation test (temps fige)
++-- Infrastructure/Messenger/
+    +-- DispatchDomainEventsAfterCommitMiddleware.php  # Dispatch events apres commit
+```
+
+Ces classes suivent les conventions documentees dans le `claude.md` (Clock Port obligatoire, Value Objects immuables, handlers retournant `[result, events]`).
 
 ## Ajout des modules SHbyJM
 
