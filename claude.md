@@ -797,9 +797,18 @@ entre le métier et le technique — c'est l'Ubiquitous Language au sens DDD du 
 | [À compléter] | | |
 
 ### Messenger — configuration du projet
+
+La config de base est livrée par le skeleton (`config/packages/messenger.yaml`) et
+n'a pas besoin d'être recréée. Elle fournit :
+
 | Bus | Transport | Middleware | Rôle |
 |-----|-----------|-----------|------|
-| [À compléter selon les besoins du projet] | | | |
+| `command.bus` (défaut) | Synchrone | `doctrine_transaction` | Commands métier |
+| `async.bus` | Doctrine (`async`) | `allow_no_handlers` | Tâches lourdes, emails |
+
+Les packages SHbyJM dépendent de cette convention. Ne pas la modifier sans raison.
+Ajouter ici uniquement les extensions spécifiques au projet (nouveaux transports,
+routings supplémentaires, etc.).
 
 ### Déploiement
 [À documenter au moment du premier déploiement]

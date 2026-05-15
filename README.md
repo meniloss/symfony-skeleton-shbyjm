@@ -30,6 +30,7 @@ composer create-project meniloss/symfony-skeleton-shbyjm mon-nouveau-site
 Cela crée un projet Symfony 7.4 vierge avec :
 - L'endpoint Flex SHbyJM déjà configuré
 - Les repositories VCS GitHub déclarés pour les packages SHbyJM privés
+- La config Messenger SHbyJM (deux bus, middleware doctrine_transaction, transport async Doctrine)
 
 ## Structure dual avec bootstrap.ps1
 
@@ -84,6 +85,19 @@ Le `composer.json` déclare les repositories VCS GitHub des packages SHbyJM :
 ```
 
 Ces déclarations indiquent à Composer où trouver les packages privés. Aucun package n'est installé automatiquement — ils restent à ajouter à la demande via `composer require`.
+
+## Config Messenger (livrée d'office)
+
+Le skeleton inclut `config/packages/messenger.yaml` avec la convention Messenger partagée par tous les sites SHbyJM :
+
+- **`command.bus`** (synchrone) — middleware `doctrine_transaction`, bus par défaut
+- **`async.bus`** — taches lourdes (emails, notifications differees)
+- **Transport `async`** — Doctrine, retry x3
+- **Transport `failed`** — dead-letter queue Doctrine
+
+Cette config est une convention structurante documentee dans le `claude.md`. Les packages SHbyJM (`admin-shell`, `lead-forwarding`) en dependent. Elle est livree dans le skeleton plutot que via une recipe Flex car Flex refuse d'ecraser un fichier existant en mode non-interactif — la recipe officielle `symfony/messenger` pose un `messenger.yaml` par defaut avant que la recipe SHbyJM ne puisse agir.
+
+La variable `MESSENGER_TRANSPORT_DSN` est definie dans le `.env` du skeleton.
 
 ## Ajout des modules SHbyJM
 
