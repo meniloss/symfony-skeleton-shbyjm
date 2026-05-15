@@ -71,7 +71,10 @@ mon-nouveau-site/
 
 Le script ajuste automatiquement :
 - `composer.json` → `extra.symfony.public-dir` pointe vers le webroot
+- `composer.json` → retrait de `assets:install %PUBLIC_DIR%` des auto-scripts (inutile avec Webpack Encore, incompatible avec la structure dual)
 - `index.php` → le `require` de l'autoloader pointe vers `symfony/vendor/`
+
+> **Note** : `assets:install` est retiré par convention SHbyJM. La stack utilise Webpack Encore pour la gestion des assets. Si un cas spécifique le nécessite, la commande reste disponible manuellement : `php bin/console assets:install`.
 
 ## Repositories VCS
 

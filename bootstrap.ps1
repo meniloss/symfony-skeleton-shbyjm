@@ -108,7 +108,14 @@ if ($composerContent -match '"public-dir"') {
 
 Set-Content -Path $composerPath -Value $composerContent -NoNewline
 
-# 4b. index.php : ajuster le chemin vers autoload_runtime.php
+# 4b. auto-scripts : retirer assets:install (inutile avec Webpack Encore, problematique avec la structure dual)
+$composerContent = Get-Content -Path $composerPath -Raw
+$composerContent = $composerContent -replace ',?\s*"assets:install %PUBLIC_DIR%"\s*:\s*"symfony-cmd"\s*,?', ''
+# Nettoyer une eventuelle virgule pendante avant le } fermant de auto-scripts
+$composerContent = $composerContent -replace ',(\s*})', '$1'
+Set-Content -Path $composerPath -Value $composerContent -NoNewline
+
+# 4c. index.php : ajuster le chemin vers autoload_runtime.php
 $indexPath = Join-Path $PublicDir "index.php"
 if (Test-Path $indexPath) {
     $indexContent = Get-Content -Path $indexPath -Raw
