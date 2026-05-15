@@ -23,6 +23,7 @@
         "symfony/mailer": "*",
         "symfony/messenger": "*",
         "symfony/runtime": "*",
+        "symfony/translation": "*",
         "symfony/uid": "*",
         "symfony/yaml": "*"
     },
