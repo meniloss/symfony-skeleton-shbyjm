@@ -13,13 +13,17 @@
     },
     "flex-require": {
         "doctrine/doctrine-bundle": "*",
+        "doctrine/doctrine-migrations-bundle": "*",
         "doctrine/orm": "*",
+        "symfony/clock": "*",
         "symfony/console": "*",
         "symfony/dotenv": "*",
+        "symfony/form": "*",
         "symfony/framework-bundle": "*",
         "symfony/mailer": "*",
         "symfony/messenger": "*",
         "symfony/runtime": "*",
+        "symfony/uid": "*",
         "symfony/yaml": "*"
     },
     "require-dev": {
