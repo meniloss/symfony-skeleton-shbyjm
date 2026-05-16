@@ -82,6 +82,10 @@ Le script ajuste automatiquement :
 
 Le skeleton tire `symfony/apache-pack` via flex-require. La recipe officielle pose automatiquement un `.htaccess` dans `public/` au `create-project`. Apres `bootstrap.ps1`, ce fichier se retrouve dans `public_html/.htaccess` — pret pour un deploiement Apache (PlanetHoster N0C).
 
+## CSRF
+
+Le skeleton livre `config/packages/csrf.yaml` qui desactive le CSRF stateless (double-submit cookie) introduit par la recipe Symfony 7.4. Tous les sites SHbyJM utilisent `form_login` via admin-shell, qui necessite le CSRF classique base session. Sans cette preemption, le login echoue avec "Jeton CSRF invalide".
+
 ## Repositories VCS
 
 Le `composer.json` déclare les repositories VCS GitHub des packages SHbyJM :
