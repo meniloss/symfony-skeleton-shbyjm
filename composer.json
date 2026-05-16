@@ -21,6 +21,7 @@
         "symfony/dotenv": "*",
         "symfony/form": "*",
         "symfony/framework-bundle": "*",
+        "symfony/security-csrf": "*",
         "symfony/mailer": "*",
         "symfony/messenger": "*",
         "symfony/runtime": "*",
