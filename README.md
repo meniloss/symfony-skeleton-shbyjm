@@ -66,7 +66,7 @@ Les noms peuvent contenir des points et des tirets (utile pour les sous-domaines
 ```
 mon-nouveau-site/
 ├── symfony/              # Code Symfony (src/, config/, vendor/, bin/...)
-├── public_html/          # Webroot (index.php, assets...)
+├── public_html/          # Webroot (index.php, .htaccess, assets...)
 ├── claude.md             # Conventions projet
 └── .git/
 ```
@@ -77,6 +77,10 @@ Le script ajuste automatiquement :
 - `index.php` → le `require` de l'autoloader pointe vers `symfony/vendor/`
 
 > **Note** : `assets:install` est retiré par convention SHbyJM. La stack utilise Webpack Encore pour la gestion des assets. Si un cas spécifique le nécessite, la commande reste disponible manuellement : `php bin/console assets:install`.
+
+## Apache (.htaccess)
+
+Le skeleton tire `symfony/apache-pack` via flex-require. La recipe officielle pose automatiquement un `.htaccess` dans `public/` au `create-project`. Apres `bootstrap.ps1`, ce fichier se retrouve dans `public_html/.htaccess` — pret pour un deploiement Apache (PlanetHoster N0C).
 
 ## Repositories VCS
 

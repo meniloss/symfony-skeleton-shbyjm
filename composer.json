@@ -15,6 +15,7 @@
         "doctrine/doctrine-bundle": "*",
         "doctrine/doctrine-migrations-bundle": "*",
         "doctrine/orm": "*",
+        "symfony/apache-pack": "*",
         "symfony/clock": "*",
         "symfony/console": "*",
         "symfony/dotenv": "*",
